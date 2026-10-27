@@ -31,6 +31,7 @@
 #include "PreRTS.h"	// This must go first in EVERY cpp file in the GameEngine
 
 #include "Common/FileSystem.h"
+#include "Common/FrameRateLimit.h"
 #include "Common/GameEngine.h"
 //#include "Common/GameLOD.h"
 #include "Common/GameState.h"
@@ -686,7 +687,7 @@ WindowMsgHandledType ChallengeMenuSystem( GameWindow *window, UnsignedInt msg, W
 				// GeneralsX @bugfix felipebraz 27/09/2026 Use configurable render FPS limit (default 60 FPS) instead of legacy 30 FPS in General's Challenge
 				// Retail Zero Hour hardcoded LOGICFRAMES_PER_SECOND (30) to mimic the retail solo frame cap.
 				// GeneralsX decouples simulation logic from render FPS, standardizing the render cap to TheGlobalData->m_framesPerSecondLimit.
-				msg->appendIntegerArgument(TheGlobalData->m_framesPerSecondLimit);	// FPS limit
+				msg->appendIntegerArgument(RenderFpsPreset::DefaultFpsValue);	// FPS limit
 
 				InitRandom(0);
 			}

@@ -737,6 +737,7 @@ protected:
 	DrawableList								m_selectedLocalDrawables;											///< A list of all selected drawables owned by the local player
 	Bool												m_isDragSelecting;														///< If TRUE, an area selection is in progress
 	IRegion2D										m_dragSelectRegion;														///< if isDragSelecting is TRUE, this contains select region
+	ICoord2D										m_dragSelectAnchor;														///< fixed corner used to refresh the live selection region
 	Bool												m_displayedMaxWarning;                        ///< keeps the warning from being shown over and over
 	MoveHintStruct							m_moveHint[ MAX_MOVE_HINTS ];
 	Int													m_nextMoveHint;

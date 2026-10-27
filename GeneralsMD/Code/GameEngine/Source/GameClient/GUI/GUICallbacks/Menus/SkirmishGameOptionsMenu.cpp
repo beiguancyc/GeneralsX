@@ -33,6 +33,7 @@
 
 #include "Common/BattleHonors.h"
 #include "Common/FileSystem.h"
+#include "Common/FrameRateLimit.h"
 #include "Common/GameEngine.h"
 #include "Common/PlayerTemplate.h"
 #include "Common/QuotedPrintable.h"
@@ -391,7 +392,9 @@ Bool SkirmishPreferences::write()
 //	NameKeyType sliderGameSpeedID = TheNameKeyGenerator->nameToKey( "SkirmishGameOptionsMenu.wnd:SliderGameSpeed" );
 	GameWindow *sliderGameSpeed = TheWindowManager->winGetWindowFromId( parentSkirmishGameOptions, sliderGameSpeedID );
 	Int maxFPS = GadgetSliderGetPosition( sliderGameSpeed );
-	setInt("FPS", maxFPS);
+	// GeneralsX @bugfix Codex 27/10/2026 Keep the legacy game-speed value
+	// separate from the render FPS limit so old profiles do not cap input at 30 Hz.
+	setInt("RenderFPS", maxFPS);
 
 	return UserPreferences::write();
 }
@@ -1387,7 +1390,7 @@ void SkirmishGameOptionsMenuInit( WindowLayout *layout, void *userData )
 	GameWindow *sliderGameSpeed = TheWindowManager->winGetWindowFromId( parentSkirmishGameOptions, sliderGameSpeedID );
 	// GeneralsX @tweak felipebraz 20/06/2026 Set up the skirmish slider to represent rendering FPS limit (30..120+)
 	GadgetSliderSetMinMax( sliderGameSpeed, 30, 121 );
-	Int sliderPos = max(30,min(121,prefs.getInt("FPS", TheGlobalData->m_framesPerSecondLimit)));
+	Int sliderPos = max(30,min(121,prefs.getInt("RenderFPS", RenderFpsPreset::DefaultFpsValue)));
 	GadgetSliderSetPosition( sliderGameSpeed, sliderPos );
 	setFPSTextBox(sliderPos);
 	buttonStart->winSetText(TheGameText->fetch("GUI:Start"));

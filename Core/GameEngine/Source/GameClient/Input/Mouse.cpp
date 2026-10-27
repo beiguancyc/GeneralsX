@@ -704,11 +704,6 @@ void Mouse::createStreamMessages()
 	GameMessage *msg = nullptr;
 	UnsignedInt now = timeGetTime();
 
-	// basic position messages are always created
-	msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_POSITION );
-	msg->appendPixelArgument( m_currMouse.pos );
-	msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
-
   Int delay = m_tooltipDelayTime;
   if(m_tooltipDelay >= 0 )
      delay = m_tooltipDelay;
@@ -738,6 +733,14 @@ void Mouse::createStreamMessages()
 	for (Int i = 0; i < m_eventsThisFrame; ++i)
 	{
 		processMouseEvent(i);
+
+		// GeneralsX @bugfix 27/10/2026 Send this event's position rather than the
+		// previous frame's position. The old ordering made selection feedback trail
+		// the pointer by one render frame even after drag selection had started.
+		msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_POSITION );
+		msg->appendPixelArgument( m_currMouse.pos );
+		msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
+
 		if (m_currMouse.deltaPos.x || m_currMouse.deltaPos.y)
 			m_stillTime = now;
 
@@ -857,6 +860,14 @@ void Mouse::createStreamMessages()
 			msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
 		}
 
+	}
+
+	// Keep mouse-over processing alive on frames with no device events.
+	if (m_eventsThisFrame == 0)
+	{
+		msg = TheMessageStream->appendMessage( GameMessage::MSG_RAW_MOUSE_POSITION );
+		msg->appendPixelArgument( m_currMouse.pos );
+		msg->appendIntegerArgument( TheKeyboard->getModifierFlags() );
 	}
 }
 

@@ -295,6 +295,15 @@ public:
 
 	// access methods for the mouse data
 	const MouseIO *getMouseStatus() { return &m_currMouse; }							///< get current mouse status
+	// GeneralsX @feature Codex 27/10/2026 Allow latency-sensitive UI to
+	// re-sample the live device position immediately before drawing.
+	virtual Bool getCurrentPosition(ICoord2D *position)
+	{
+		if (position == nullptr)
+			return FALSE;
+		*position = m_currMouse.pos;
+		return TRUE;
+	}
 
   Int  getCursorTooltipDelay() { return m_tooltipDelay; }
   void setCursorTooltipDelay(Int delay) { m_tooltipDelay = delay; }

@@ -55,6 +55,7 @@ public:
 	virtual void update(void);
 	virtual void draw(void) override;
 	virtual void initCursorResources(void);
+	virtual Bool getCurrentPosition(ICoord2D *position) override;
 
 	// Mouse interface
 	virtual void setCursor(MouseCursor cursor);

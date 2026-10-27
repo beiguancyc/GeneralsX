@@ -409,6 +409,31 @@ void SDL3Mouse::update(void)
 }
 
 /**
+ * Sample the live SDL pointer position without waiting for the next input poll.
+ */
+Bool SDL3Mouse::getCurrentPosition(ICoord2D *position)
+{
+	if (position == nullptr || m_Window == nullptr || m_LostFocus ||
+			SDL_GetMouseFocus() != m_Window)
+	{
+		return Mouse::getCurrentPosition(position);
+	}
+
+	// GeneralsX @feature Codex 27/10/2026 Sample the pointer at draw time so
+	// the selection outline does not use a position captured earlier in the frame.
+	float rawX = 0.0f;
+	float rawY = 0.0f;
+	SDL_GetMouseState(&rawX, &rawY);
+
+	int scaledX = 0;
+	int scaledY = 0;
+	scaleMouseCoordinates(rawX, rawY, SDL_GetWindowID(m_Window), scaledX, scaledY);
+	position->x = scaledX;
+	position->y = scaledY;
+	return TRUE;
+}
+
+/**
  * Initialize cursor resources (load cursor images from ANI files)
  * GeneralsX @bugfix BenderAI 22/02/2026 Port fighter19 cursor loading
  */

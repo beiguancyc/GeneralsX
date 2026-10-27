@@ -1004,6 +1004,7 @@ InGameUI::InGameUI()
 
   m_inputEnabled = true;
 	m_isDragSelecting = false;
+	m_dragSelectAnchor.zero();
 	m_nextMoveHint = 0;
 	m_selectCount = 0;
 	m_frameSelectionChanged = 0;
@@ -2383,6 +2384,8 @@ void InGameUI::beginAreaSelectHint( const GameMessage *msg )
 {
 	m_isDragSelecting = true;
 	m_dragSelectRegion = msg->getArgument( 0 )->pixelRegion;
+	if (msg->getArgumentCount() > 1)
+		m_dragSelectAnchor = msg->getArgument( 1 )->pixel;
 }
 
 //-------------------------------------------------------------------------------------------------

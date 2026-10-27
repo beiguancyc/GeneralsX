@@ -47,6 +47,7 @@ class RenderFpsPreset
 public:
 	enum CPP_11(: UnsignedInt)
 	{
+		DefaultFpsValue = 60,
 		UncappedFpsValue = 1000000,
 	};
 

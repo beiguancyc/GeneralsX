@@ -586,6 +586,9 @@ void GameClient::update()
 
 	}
 
+	// GeneralsX @bugfix Codex 27/10/2026 Dispatch input hints before drawing so the
+	// selection rectangle tracks the mouse position sampled in this render frame.
+	TheMessageStream->propagateMessages();
 
   if (TheInGameUI->isCameraTrackingDrawable())
   {

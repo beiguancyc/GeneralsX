@@ -1063,8 +1063,9 @@ GlobalData::GlobalData()
 
 	m_shellMapName.set("Maps\\ShellMap1\\ShellMap1.map");
 	m_shellMapOn =TRUE;
-	m_playIntro = TRUE;
-	m_playSizzle = TRUE;
+	// GeneralsX @tweak Codex 27/10/2026 Launch directly into the Shell Map.
+	m_playIntro = FALSE;
+	m_playSizzle = FALSE;
 	m_loadScreenRender = FALSE;
 
 	m_keyboardDefaultScrollFactor = m_keyboardScrollFactor = 0.5f;

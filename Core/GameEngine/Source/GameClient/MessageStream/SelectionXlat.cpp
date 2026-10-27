@@ -563,6 +563,7 @@ GameMessageDisposition SelectionTranslator::onRawMousePosition(MAYBE_UNUSED cons
 			IRegion2D pixelRegion;
 			buildRegion( &m_leftMouseDownAnchor, &pixel, &pixelRegion );
 			hintMsg->appendPixelRegionArgument( pixelRegion );
+			hintMsg->appendPixelArgument( m_leftMouseDownAnchor );
 		}
 	}
 	else //left button is not down (not drag select)

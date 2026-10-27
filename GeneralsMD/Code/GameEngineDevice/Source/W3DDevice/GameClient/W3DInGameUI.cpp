@@ -41,6 +41,7 @@
 #include "GameClient/GameWindowManager.h"
 #include "GameClient/GadgetSlider.h"
 #include "GameClient/ControlBar.h"
+#include "GameClient/Mouse.h"
 #include "W3DDevice/GameClient/W3DAssetManager.h"
 #include "W3DDevice/GameClient/W3DGUICallbacks.h"
 #include "W3DDevice/GameClient/W3DInGameUI.h"
@@ -449,6 +450,17 @@ void W3DInGameUI::draw()
 //-------------------------------------------------------------------------------------------------
 void W3DInGameUI::drawSelectionRegion()
 {
+	ICoord2D currentMouse;
+	if (TheMouse != nullptr && TheMouse->getCurrentPosition(&currentMouse))
+	{
+		// GeneralsX @feature Codex 27/10/2026 Use the freshest pointer position
+		// when drawing the selection outline.
+		m_dragSelectRegion.lo.x = min(m_dragSelectAnchor.x, currentMouse.x);
+		m_dragSelectRegion.lo.y = min(m_dragSelectAnchor.y, currentMouse.y);
+		m_dragSelectRegion.hi.x = max(m_dragSelectAnchor.x, currentMouse.x);
+		m_dragSelectRegion.hi.y = max(m_dragSelectAnchor.y, currentMouse.y);
+	}
+
 	Real width = 2.0f;
 	UnsignedInt color = 0x9933FF33;  //0xAARRGGBB
 
