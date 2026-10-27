@@ -168,6 +168,16 @@ if [[ -f "${FXLIST_GENERALSX_SRC}" ]]; then
     cp -v "${FXLIST_GENERALSX_SRC}" "${RUNTIME_DIR}/Data/INI/FXListGeneralsX.ini"
 fi
 
+# Deploy the macOS mouse tuning override. The retail Mouse.ini waits for 25
+# pixels before starting a drag selection, which is noticeably delayed at the
+# game's high-resolution macOS render sizes. This complete override lowers the
+# thresholds to 5 while preserving all cursor definitions.
+MOUSE_INI_SRC="${PROJECT_ROOT}/GeneralsZH/Data/INI/Mouse.ini"
+if [[ -f "${MOUSE_INI_SRC}" ]]; then
+    mkdir -p "${RUNTIME_DIR}/Data/INI"
+    cp -v "${MOUSE_INI_SRC}" "${RUNTIME_DIR}/Data/INI/Mouse.ini"
+fi
+
 # GeneralsX @bugfix felipebraz 16/10/2026 Symlink Data/Cursors into runtime dir if present in asset path
 ZH_ASSET_DIR="${CNC_GENERALS_ZH_PATH:-}"
 if [[ -z "${ZH_ASSET_DIR}" || ! -d "${ZH_ASSET_DIR}/Data/Cursors" ]]; then
